@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -23,7 +25,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate(
+        $validated = Validator::make($request->all(),
             [
                 "name" => "required|string",
                 "email" => "required|email|unique:users",
@@ -32,11 +34,26 @@ class UserController extends Controller
             ]
         );
 
-        $user = User::create($validated);
+        if($validated->fails())
+        {
+            return response()->json([
+                'message' => $validated->errors(),
+            ], 422);
+        }
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $token = $user->createToken($user->name)->plainTextToken;
 
         return response()->json([
             "message" => "User Stored Successfully!",
-            "user" => $user
+            "user" => $user,
+            "token" => $token
         ], 200);
 
 
