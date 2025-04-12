@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+
+
 // Authentication
 Route::get("/reset-password", [AuthController::class, "resetPassword"])->middleware("guest");
 Route::get("/forgot-password", [AuthController::class, "forgotPassword"])->middleware("guest");
