@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Classe;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class RoomController extends Controller
 {
@@ -79,12 +80,21 @@ class RoomController extends Controller
         ]);
 
         $room = Room::find($room);
+
         if(!$room)
         {
             return response()->json([
                 "message" => "Room Does Not Exist"
             ],  404);
         }
+
+        if(Gate::denies("update-room", $room))
+        {
+            return response()->json([
+                "message" => "Unauthorized"
+            ], 403);
+        }
+
 
         $class= Classe::where("class", "like", "%".$request->class ."%")->first();
 
@@ -108,12 +118,22 @@ class RoomController extends Controller
     {
 
         $room = Room::find($room);
+
         if(!$room)
         {
             return response()->json([
                 "message" => "Romm Does Not Exist"
             ], 404);
         }
+        
+        if(Gate::denies("delete-room", $room))
+        {
+            return response()->json([
+                "message" => "Unauthorized"
+            ], 403);
+        }
+
+
 
         $room->delete();
         return response()->json([

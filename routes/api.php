@@ -17,20 +17,37 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Room
-Route::delete("/rooms/delete/{room}", [RoomController::class, "destroy"])->middleware("guest");
-Route::put("/rooms/update/{room}", [RoomController::class, "update"])->middleware("guest");
-Route::get("/rooms/show/{room}", [RoomController::class, "show"])->middleware("guest");
 
-Route::post("/rooms/store", [RoomController::class, "store"])->middleware("guest");
-Route::get("/rooms", [RoomController::class, "index"])->middleware("guest");
+Route::middleware(['auth:sanctum'])->group(function () {
+    // Room
+    Route::delete("/rooms/delete/{room}", [RoomController::class, "destroy"]);
+    Route::put("/rooms/update/{room}", [RoomController::class, "update"]);
+    Route::get("/rooms/show/{room}", [RoomController::class, "show"]);
+    Route::post("/rooms/store", [RoomController::class, "store"]);
+    Route::get("/rooms", [RoomController::class, "index"]);
+
+    // AUTH LOGOUT
+    Route::post("/logout", [AuthController::class, "logout"]);
+
+    // USER
+    Route::get("/users", [UserController::class, "index"]);
+    Route::get("/users/show/{user}", [UserController::class, "show"]);
+    Route::put("/users/update/{user}", [UserController::class, "update"]);
+    Route::put("/users/update-role/{user}", [UserController::class, "updateRole"]);
+    Route::delete("/users/destroy/{user}", [UserController::class, "destroy"]);
+});
+
+Route::middleware(['guest'])->group(function () {
+    // Authentication
+    Route::get("/reset-password", [AuthController::class, "resetPassword"]);
+    Route::get("/forgot-password", [AuthController::class, "forgotPassword"]);
+    Route::get("/login", [AuthController::class, "login"]);
+
+    Route::post("/users/store", [UserController::class, "store"]);
+});
 
 
-// Authentication
-Route::get("/reset-password", [AuthController::class, "resetPassword"])->middleware("guest");
-Route::get("/forgot-password", [AuthController::class, "forgotPassword"])->middleware("guest");
-Route::post("/logout", [AuthController::class, "logout"])->middleware("auth:sanctum");
-Route::get("/login", [AuthController::class, "login"])->middleware("guest");
+
 
 
 
@@ -38,15 +55,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("/users", [UserController::class, "index"]);
-
-Route::post("/users/store", [UserController::class, "store"]);
-
-Route::get("/users/show/{user}", [UserController::class, "show"]);
-
-Route::put("/users/update/{user}", [UserController::class, "update"]);
-
-Route::put("/users/update-role/{user}", [UserController::class, "updateRole"]);
-
-Route::delete("/users/destroy/{user}", [UserController::class, "destroy"]);
 
