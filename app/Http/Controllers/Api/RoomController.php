@@ -14,7 +14,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms = Room::all();
+        $rooms = Room::with("classe")->get();
 
         return response()->json(["rooms" => $rooms], 200);
     }
@@ -52,7 +52,7 @@ class RoomController extends Controller
     public function show($room)
     {
 
-        $room = Room::find($room);
+        $room = Room::with("classe")->find($room);
 
         if(!$room)
         {
@@ -62,7 +62,7 @@ class RoomController extends Controller
         }
 
         return response()->json([
-            "room" => $room
+            "room" => $room,
         ], 200);
     }
 
@@ -114,7 +114,7 @@ class RoomController extends Controller
                 "message" => "Romm Does Not Exist"
             ], 404);
         }
-        
+
         $room->delete();
         return response()->json([
             "message" => "Romm deleted with success"

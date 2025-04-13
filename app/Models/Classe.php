@@ -10,4 +10,9 @@ class Classe extends Model
     use HasFactory;
 
     protected $fillable = ["class"];
+
+    public function room()
+    {
+        return $this->belongsToMany(Room::class);
+    }
 }
