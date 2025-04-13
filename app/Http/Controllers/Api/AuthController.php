@@ -17,7 +17,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            "email" => "required|email",
+            "email" => "required|email|exists:users",
             "password" => "required"
         ]);
 
@@ -25,11 +25,8 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                "message" => ValidationException::withMessages([
-                    "email" => "email not found",
-                    "password" => "password incorrect"
-                ])
-            ]);
+                "message" => "The provided password is incorrect"
+            ], 422);
         }
 
         $token = $user->createToken($user->name)->plainTextToken;
