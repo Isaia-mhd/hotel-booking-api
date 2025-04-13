@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +17,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Room
+Route::delete("/rooms/delete/{room}", [RoomController::class, "destroy"])->middleware("guest");
+Route::put("/rooms/update/{room}", [RoomController::class, "update"])->middleware("guest");
+Route::get("/rooms/show/{room}", [RoomController::class, "show"])->middleware("guest");
 
+Route::post("/rooms/store", [RoomController::class, "store"])->middleware("guest");
+Route::get("/rooms", [RoomController::class, "index"])->middleware("guest");
 
 
 // Authentication
