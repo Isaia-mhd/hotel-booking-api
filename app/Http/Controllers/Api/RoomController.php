@@ -88,7 +88,7 @@ class RoomController extends Controller
             ],  404);
         }
 
-        if(Gate::denies("update-room", $room))
+        if(Gate::denies("update-room"))
         {
             return response()->json([
                 "message" => "Unauthorized"
@@ -126,7 +126,7 @@ class RoomController extends Controller
             ], 404);
         }
 
-        if(Gate::denies("delete-room", $room))
+        if(Gate::denies("delete-room"))
         {
             return response()->json([
                 "message" => "Unauthorized"

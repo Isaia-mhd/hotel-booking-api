@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -84,7 +85,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $user)
     {
         $validated = $request->validate(
             [
@@ -94,11 +95,28 @@ class UserController extends Controller
             ]
         );
 
-        $user->update($validated);
+
+        $userInfo = User::find($user);
+
+        if(!$userInfo)
+        {
+            return response()->json([
+                "message" => "Room Does Not Exist"
+            ],  404);
+        }
+
+        if(Gate::denies("update-user", $userInfo))
+        {
+            return response()->json([
+                "message" => "Unauthorized"
+            ], 403);
+        }
+
+        $userInfo->update($validated);
 
         return response()->json([
             "message" => "User updated Successfully!",
-            "user" => $user
+            "user" => $userInfo
         ], 200);
 
 
@@ -114,6 +132,14 @@ class UserController extends Controller
             ], 422);
         }
 
+
+        if(Gate::denies("change-role"))
+        {
+            return response()->json([
+                "message" => "Unauthorized"
+            ], 403);
+        }
+
         $user->update(["role" => request()->get("role")]);
         return response()->json([
             "message" => "role updated successfully!",
@@ -126,14 +152,21 @@ class UserController extends Controller
     public function destroy($user)
     {
 
-        $user = User::find($user);
-        if (!$user) {
+        $userInfo = User::find($user);
+        if (!$userInfo) {
             return response()->json([
                 'message' => "User does not exist",
             ], 404);
         }
 
-        $user->delete();
+        if(Gate::denies("delete-user", $userInfo))
+        {
+            return response()->json([
+                "message" => "Unauthorized"
+            ], 403);
+        }
+
+        $userInfo->delete();
         return response()->json([
             "message" => "User deleted successfully"
         ]);
