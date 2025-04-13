@@ -122,10 +122,10 @@ class RoomController extends Controller
         if(!$room)
         {
             return response()->json([
-                "message" => "Romm Does Not Exist"
+                "message" => "Room Does Not Exist"
             ], 404);
         }
-        
+
         if(Gate::denies("delete-room", $room))
         {
             return response()->json([
@@ -137,7 +137,7 @@ class RoomController extends Controller
 
         $room->delete();
         return response()->json([
-            "message" => "Romm deleted with success"
+            "message" => "Room deleted with success"
         ], 200);
     }
 }
