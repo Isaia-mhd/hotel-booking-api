@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -19,6 +20,17 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+    // Booking a room
+    Route::put("/books/cancel/{book}/", [BookingController::class, "cancel"]);
+    Route::delete("/books/delete/{book}/", [BookingController::class, "destroy"]);
+    Route::put("/books/update/{book}/", [BookingController::class, "update"]);
+    Route::get("/books/show/{book}/", [BookingController::class, "show"]);
+    Route::post("/books/store/{room}", [BookingController::class, "store"]);
+    Route::get("/books", [BookingController::class, "index"]);
+
+
+
     // Room
     Route::delete("/rooms/delete/{room}", [RoomController::class, "destroy"]);
     Route::put("/rooms/update/{room}", [RoomController::class, "update"]);

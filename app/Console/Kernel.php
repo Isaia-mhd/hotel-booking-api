@@ -13,6 +13,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('rooms:update-status')->daily();
+
     }
 
     /**
@@ -25,3 +27,6 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 }
+
+
+// /home/muuhamed/Desktop/LARAVEL/API/hotel-booking
