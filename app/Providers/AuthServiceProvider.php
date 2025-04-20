@@ -33,6 +33,9 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define("delete-book", fn($user) => $user->role == "admin");
 
+        Gate::define("get-notifications", fn($user) => $user->role == "admin");
+
+
 
 
 

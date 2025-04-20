@@ -2,13 +2,17 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookingController;
+use App\Http\Controllers\Api\LikingController;
+use App\Http\Controllers\Api\NotifController;
 use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\ContactController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
-|--------------------------------------------------------------------------
+|role--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
 |
@@ -18,8 +22,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post("/contacts/store", [ContactController::class,"store"]);
+Route::get("/contacts", [ContactController::class,"getAll"]);
+
+
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+
+    // Notification*
+    Route::get('/admin/notifications', [NotifController::class, "getNotifications"]);
 
     // Booking a room
     Route::put("/books/cancel/{book}/", [BookingController::class, "cancel"]);
@@ -32,6 +44,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     // Room
+    Route::post("/rooms/{room}/liking", [LikingController::class, "liking"]);
     Route::delete("/rooms/delete/{room}", [RoomController::class, "destroy"]);
     Route::put("/rooms/update/{room}", [RoomController::class, "update"]);
     Route::get("/rooms/show/{room}", [RoomController::class, "show"]);
