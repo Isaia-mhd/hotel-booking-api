@@ -1,6 +1,7 @@
 #Step to use this REST API
 
-1-> git clone <link-of-repo>
+
+1-> git clone https://github.com/Isaia-mhd/hotel-booking-api.git
 
 2-> cd hotel-boking-api
 
