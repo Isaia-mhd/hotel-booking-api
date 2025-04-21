@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Room::class, 'likes')->withTimestamps();
     }
+
+    public function book()
+    {
+        return $this->hasMany(Book::class);
+    }
 }

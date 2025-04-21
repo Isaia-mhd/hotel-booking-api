@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\LikingController;
 use App\Http\Controllers\Api\NotifController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\ContactController;
@@ -27,7 +28,13 @@ Route::get("/contacts", [ContactController::class,"getAll"]);
 
 
 
+// STRIPE PAYMENT
+Route::get('/cancel', [PaymentController::class, 'cancel'])->name('cancel');
+Route::get('/success/{book}', [PaymentController::class, 'success'])->name('success');
+Route::post('/payment/{book}', [PaymentController::class, 'payment'])->name('payment');
+
 Route::middleware(['auth:sanctum'])->group(function () {
+
 
 
     // Notification*

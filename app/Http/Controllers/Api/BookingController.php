@@ -50,8 +50,8 @@ class BookingController extends Controller
         $booking = Book::create([
             'room_id' => $room,
             'user_id' => auth()->id(),
-            'start-date' => $startDate,
-            'end-date' => $endDate,
+            'start_date' => $startDate,
+            'end_date' => $endDate,
             'number_of_people' => $nbPeople
         ]);
 
@@ -105,8 +105,8 @@ class BookingController extends Controller
         }
         $book = Book::find($book);
         $book->update([
-            "start-date" => $startDate,
-            "end-date" => $endDate,
+            "start_date" => $startDate,
+            "end_date" => $endDate,
             "number_of_people" => $nbPeople
         ]);
 
@@ -156,7 +156,7 @@ class BookingController extends Controller
             ], 404);
         }
 
-        
+
         $book->update(["isCanceled" => true]);
         return response()->json([
             "message" => "Booking Canceled"

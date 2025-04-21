@@ -17,7 +17,7 @@ class RoomFactory extends Factory
     public function definition(): array
     {
         return [
-            "name" => fake()->name,
+            "name" => "Room " . $this->faker->unique()->numberBetween(1, 60),
             "class_id" => fake()->numberBetween(1, 5),
             "price" => fake()->randomFloat(2, 15.99, 46.88, ),
             "isBooked" => fake()->boolean(50)

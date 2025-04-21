@@ -29,11 +29,11 @@ class BookSeeder extends Seeder
             // Check if this room is available for this range
             $isBooked = Book::where('room_id', $room->id)
                 ->where(function ($query) use ($startDate, $endDate) {
-                    $query->whereBetween('start-date', [$startDate, $endDate])
-                          ->orWhereBetween('end-date', [$startDate, $endDate])
+                    $query->whereBetween('start_date', [$startDate, $endDate])
+                          ->orWhereBetween('end_date', [$startDate, $endDate])
                           ->orWhere(function ($q) use ($startDate, $endDate) {
-                              $q->where('start-date', '<=', $startDate)
-                                ->where('end-date', '>=', $endDate);
+                              $q->where('start_date', '<=', $startDate)
+                                ->where('end_date', '>=', $endDate);
                           });
                 })
                 ->exists();
@@ -42,8 +42,8 @@ class BookSeeder extends Seeder
                 Book::create([
                     'room_id' => $room->id,
                     'user_id' => $users->random()->id,
-                    'start-date' => $startDate,
-                    'end-date' => $endDate,
+                    'start_date' => $startDate,
+                    'end_date' => $endDate,
                     "number_of_people" => $faker->numberBetween(1, 10)
                 ]);
             }
