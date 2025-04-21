@@ -74,7 +74,7 @@ class RoomController extends Controller
     {
         $request->validate([
             "name" => "required|string",
-            "porte" => "string|nullable",
+            "porte" => "string|nullable|unique:rooms",
             "price" => "required|numeric",
             "class" => "string|required"
         ]);

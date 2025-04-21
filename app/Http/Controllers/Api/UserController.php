@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -31,7 +32,7 @@ class UserController extends Controller
                 "name" => "required|string",
                 "email" => "required|email|unique:users",
                 "phone" => "required|string",
-                "password" => "required|confirmed"
+                "password" => ["required", "confirmed", Password::min(8)->mixedCase()->numbers()->symbols(),]
             ]
         );
 
