@@ -74,7 +74,7 @@ Route::middleware(['guest'])->group(function () {
     Route::get("/reset-password", [AuthController::class, "resetPassword"]);
     Route::get("/forgot-password", [AuthController::class, "forgotPassword"]);
     Route::get("/login", [AuthController::class, "login"]);
-    Route::post("/users/register", [UserController::class, "store"]);
+    Route::post("/register", [UserController::class, "store"]);
 });
 
 

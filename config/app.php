@@ -144,6 +144,8 @@ return [
         // 'store' => 'redis',
     ],
 
+    'admin_setup_code' => env("ADMIN_SETUP_CODE"),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
