@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -25,23 +27,14 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $validated = Validator::make($request->all(),
-            [
-                "name" => "required|string",
-                "email" => "required|email|unique:users",
-                "phone" => "required|string",
-                "password" => ["required", "confirmed", Password::min(8)->mixedCase()->numbers()->symbols(),]
-            ]
-        );
 
-        if($validated->fails())
-        {
-            return response()->json([
-                'message' => $validated->errors(),
-            ], 422);
-        }
+        /**
+     * @property string $name
+     * @property string $email
+     * @property string $password
+     */
+    public function store(StoreUserRequest $request)
+    {
 
         $user = User::create([
             'name' => $request->name,
@@ -50,12 +43,9 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $token = $user->createToken($user->name)->plainTextToken;
-
         return response()->json([
             "message" => "User Stored Successfully!",
             "user" => $user,
-            "token" => $token
         ], 200);
 
 
@@ -86,16 +76,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $user)
+    public function update(UpdateUserRequest $request, $user)
     {
-        $validated = $request->validate(
-            [
-                "name" => "required|string",
-                "email" => "required|email|exists:users",
-                "phone" => "required|string",
-            ]
-        );
-
 
         $userInfo = User::find($user);
 
@@ -113,7 +95,7 @@ class UserController extends Controller
             ], 403);
         }
 
-        $userInfo->update($validated);
+        $userInfo->update($request->all("name","email", "phone"));
 
         return response()->json([
             "message" => "User updated Successfully!",

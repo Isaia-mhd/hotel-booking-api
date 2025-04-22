@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RoomStoreRequest;
+use App\Http\Requests\StoreRoomRequest;
+use App\Http\Requests\UpdateRoomRequest;
 use App\Models\Classe;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -23,20 +26,20 @@ class RoomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRoomRequest $request)
     {
-        $request->validate([
-            "name" => "required|string",
-            "porte" => "string|nullable|unique:rooms",
-            "price" => "required|numeric",
-            "class" => "required|string"
-        ]);
-
         $class= Classe::where("class", "like", "%".$request->class ."%")->first();
 
+
+        if(Gate::denies("store-room"))
+        {
+            return response()->json([
+                "message" => "Unauthorized"
+            ], 403);
+        }
+        
         $room = Room::create([
             "name" => $request->name,
-            "porte" => $request->porte,
             "class_id" => $class->id,
             "price" => $request->price
         ]);
@@ -70,14 +73,8 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $room)
+    public function update(UpdateRoomRequest $request, $room)
     {
-        $request->validate([
-            "name" => "required|string",
-            "porte" => "string|nullable|unique:rooms",
-            "price" => "required|numeric",
-            "class" => "string|required"
-        ]);
 
         $room = Room::find($room);
 
@@ -97,10 +94,13 @@ class RoomController extends Controller
 
 
         $class= Classe::where("class", "like", "%".$request->class ."%")->first();
+        if(!$class)
+        {
+            return response()->json(["message" => "Class does not exist"]);
+        }
 
         $room->update([
             "name" => $request->name,
-            "porte" => $request->porte,
             "price" => $request->price,
             "class_id" => $class->id
         ]);

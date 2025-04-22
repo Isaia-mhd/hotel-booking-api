@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\Room;
 use App\Services\BookingValidator;
@@ -25,18 +27,12 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $room)
+    public function store(StoreBookRequest $request, $room)
     {
-        $validated = $request->validate([
-            'room_id' => $room,
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'number_of_people' => 'required|integer'
-        ]);
 
-        $nbPeople = $validated['number_of_people'];
-        $startDate = $validated['start_date'];
-        $endDate = $validated['end_date'];
+        $nbPeople = $request->number_of_people;
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
 
 
         // Validate the date
@@ -83,17 +79,12 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $book)
+    public function update(UpdateBookRequest $request, $book)
     {
-        $validated = $request->validate([
-            "start_date" => "required|date",
-            "end_date" => "required|date",
-            "number_of_people" => "required|integer"
-        ]);
 
-        $nbPeople = $validated['number_of_people'];
-        $startDate = $validated['start_date'];
-        $endDate = $validated['end_date'];
+        $nbPeople = $request->number_of_people;
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
 
 
         // Validate the date
