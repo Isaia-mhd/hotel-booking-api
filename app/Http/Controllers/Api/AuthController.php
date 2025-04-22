@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\forgotPasswordUserRequest;
+use App\Http\Requests\LoginUserRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
@@ -14,12 +16,8 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginUserRequest $request)
     {
-        $request->validate([
-            "email" => "required|email|exists:users",
-            "password" => "required"
-        ]);
 
         $user = User::where("email", $request->email)->first();
 
@@ -48,9 +46,9 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function forgotPassword(Request $request)
+    public function forgotPassword(forgotPasswordUserRequest $request)
     {
-        $request->validate(['email' => 'required|email']);
+        
 
         $status = Password::sendResetLink(
             $request->only('email')
