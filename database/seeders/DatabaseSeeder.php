@@ -21,9 +21,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             ClasseSeeder::class,
-            RoomSeeder::class,
-            UserSeeder::class,
-            BookSeeder::class,
+            // RoomSeeder::class,
+            // UserSeeder::class,
+            // BookSeeder::class,
+            AdminSeeder::class,
         ]);
     }
 }
