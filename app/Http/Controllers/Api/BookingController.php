@@ -18,7 +18,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = Book::all();
+        $bookings = Book::with("user", "room.classe")->get();
         return response()->json([
             "bookings" => $bookings
         ], 200);
