@@ -144,7 +144,7 @@ return [
         // 'store' => 'redis',
     ],
 
-    'front_end_url' => env('FRONT_END_URL', 'http://localhost:3000'),
+    'front_end_url' => env('FRONT_END_URL', 'http://localhost:5173'),
 
     'admin_setup_code' => env("ADMIN_SETUP_CODE"),
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookingController;
+use App\Http\Controllers\Api\ClasseController;
 use App\Http\Controllers\Api\LikingController;
 use App\Http\Controllers\Api\NotifController;
 use App\Http\Controllers\Api\PaymentController;
@@ -22,14 +23,24 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::get('/classes', [ClasseController::class, 'index']);
+
 
 Route::post("/contacts/store", [ContactController::class,"store"]);
 Route::get("/contacts", [ContactController::class,"getAll"]);
 
 
-
+// ROOMS for public
+Route::get("/rooms/show/{room}", [RoomController::class, "show"]);
+Route::get("/rooms", [RoomController::class, "index"]);
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+    // CLASSES
+    Route::get('/classes/update/{class}', [ClasseController::class, 'update']);
+    Route::get('/classes/new', [ClasseController::class, 'store']);
+
+
 
     // STRIPE PAYMENT
     Route::get('/cancel', [PaymentController::class, 'cancel'])->name('cancel');
@@ -54,9 +65,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post("/rooms/{room}/liking", [LikingController::class, "liking"]);
     Route::delete("/rooms/delete/{room}", [RoomController::class, "destroy"]);
     Route::put("/rooms/update/{room}", [RoomController::class, "update"]);
-    Route::get("/rooms/show/{room}", [RoomController::class, "show"]);
     Route::post("/rooms/store", [RoomController::class, "store"]);
-    Route::get("/rooms", [RoomController::class, "index"]);
 
     // AUTH LOGOUT
     Route::post("/logout", [AuthController::class, "logout"]);

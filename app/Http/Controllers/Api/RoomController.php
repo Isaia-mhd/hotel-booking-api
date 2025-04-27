@@ -18,7 +18,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms = Room::with("classe")->get();
+        $rooms = Room::with("classe")->paginate(4);
 
         return response()->json(["rooms" => $rooms], 200);
     }
@@ -37,7 +37,7 @@ class RoomController extends Controller
                 "message" => "Unauthorized"
             ], 403);
         }
-        
+
         $room = Room::create([
             "name" => $request->name,
             "class_id" => $class->id,

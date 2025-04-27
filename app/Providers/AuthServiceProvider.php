@@ -37,6 +37,9 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define("get-notifications", fn($user) => $user->role == "admin");
 
+        Gate::define("add-class", fn($user) => $user->role == "admin");
+
+
 
 
 
