@@ -25,8 +25,9 @@ class StoreRoomRequest extends FormRequest
     {
         return [
             "name" => "required|string|unique:rooms",
-            "price" => "required|decimal:2,6",
-            "class" => "string|required"
+            "price" => "required|numeric",
+            "class" => "string|required",
+            // "image_url" => "image|mimes:png,jpg,jpeg"
         ];
     }
 

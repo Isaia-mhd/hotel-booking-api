@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::get('/classes', [ClasseController::class, 'index']);
 
 
 Route::post("/contacts/store", [ContactController::class,"store"]);
@@ -37,8 +36,9 @@ Route::get("/rooms", [RoomController::class, "index"]);
 Route::middleware(['auth:sanctum'])->group(function () {
 
     // CLASSES
-    Route::get('/classes/update/{class}', [ClasseController::class, 'update']);
-    Route::get('/classes/new', [ClasseController::class, 'store']);
+    Route::put('/classes/update/{class}', [ClasseController::class, 'update']);
+    Route::post('/classes/new', [ClasseController::class, 'store']);
+    Route::get('/classes', [ClasseController::class, 'index']);
 
 
 

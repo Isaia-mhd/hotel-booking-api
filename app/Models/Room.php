@@ -20,4 +20,8 @@ class Room extends Model
     {
         return $this->belongsToMany(Book::class,"room_id");
     }
+
+    protected $casts = [
+        'price' => 'float',
+    ];
 }

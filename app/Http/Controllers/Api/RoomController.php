@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RoomStoreRequest;
 use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
+use App\Http\Resources\RoomResource;
 use App\Models\Classe;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -18,9 +19,11 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms = Room::with("classe")->paginate(4);
+        $rooms = Room::with("classe")->get();
 
-        return response()->json(["rooms" => $rooms], 200);
+        return response()->json([
+            "rooms" => RoomResource::collection($rooms)
+        ], 200);
     }
 
     /**
@@ -38,16 +41,23 @@ class RoomController extends Controller
             ], 403);
         }
 
+        $image = $request->image_url;
+
+        $imgUrl = $image->store("rooms", "public");
+
+
+
         $room = Room::create([
             "name" => $request->name,
             "class_id" => $class->id,
-            "price" => $request->price
+            "price" => $request->price,
+            "image_url" => $imgUrl
         ]);
 
         return response()->json([
             "message" => "Room created with success",
-            "room" => $room
-        ], 200);
+            "room" => new RoomResource($room)
+        ], 201);
     }
 
     /**
@@ -66,7 +76,7 @@ class RoomController extends Controller
         }
 
         return response()->json([
-            "room" => $room,
+            "room" => new RoomResource($room),
         ], 200);
     }
 
@@ -107,7 +117,7 @@ class RoomController extends Controller
 
         return response()->json([
             "message" => "Room updated with success",
-            "room" => $room
+            "room" => new RoomResource($room)
         ], 200);
     }
 

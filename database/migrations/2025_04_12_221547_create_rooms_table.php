@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string("name");
             $table->string("porte")->nullable()->unique();
             $table->foreignId("class_id")->constrained()->cascadeOnDelete();
-            $table->unsignedDecimal("price");
+            $table->decimal("price", 8, 2);
             $table->boolean("isBooked")->default(false);
             $table->timestamps();
         });
