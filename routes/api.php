@@ -82,7 +82,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::middleware(['guest'])->group(function () {
     // Authentication
     Route::post("/google-user/login", [GoogleUserController::class, "loginGoogleUser"]);
-    Route::post("/google-user/register", [GoogleUserController::class, "registerGoogleUser"]);
     Route::post("/reset-password", [AuthController::class, "resetPassword"]);
     Route::post("/forgot-password", [AuthController::class, "forgotPassword"]);
     Route::post("/login", [AuthController::class, "login"]);
