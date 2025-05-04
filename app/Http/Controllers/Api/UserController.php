@@ -35,7 +35,6 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -46,7 +45,7 @@ class UserController extends Controller
         return response()->json([
             "message" => "User Stored Successfully!",
             "user" => $user,
-        ], 200);
+        ], 201);
 
 
     }

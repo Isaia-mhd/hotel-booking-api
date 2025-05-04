@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\ClasseController;
+use App\Http\Controllers\Api\GoogleUserController;
 use App\Http\Controllers\Api\LikingController;
 use App\Http\Controllers\Api\NotifController;
 use App\Http\Controllers\Api\PaymentController;
@@ -80,6 +81,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::middleware(['guest'])->group(function () {
     // Authentication
+    Route::post("/google-user/login", [GoogleUserController::class, "loginGoogleUser"]);
+    Route::post("/google-user/register", [GoogleUserController::class, "registerGoogleUser"]);
     Route::post("/reset-password", [AuthController::class, "resetPassword"]);
     Route::post("/forgot-password", [AuthController::class, "forgotPassword"]);
     Route::post("/login", [AuthController::class, "login"]);
