@@ -81,6 +81,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::middleware(['guest'])->group(function () {
     // Authentication
+
     Route::post("/google-user/login", [GoogleUserController::class, "loginGoogleUser"]);
     Route::post("/reset-password", [AuthController::class, "resetPassword"]);
     Route::post("/forgot-password", [AuthController::class, "forgotPassword"]);
@@ -89,9 +90,3 @@ Route::middleware(['guest'])->group(function () {
 });
 
 
-
-
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});

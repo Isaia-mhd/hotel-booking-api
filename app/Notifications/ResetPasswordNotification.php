@@ -35,7 +35,7 @@ class ResetPasswordNotification extends Notification
 
     public function toBrevo($notifiable)
     {
-        $resetUrl = config("app.front_end_url") . '/reset-password?token=' . $this->token . '&email=' . urlencode($this->email);
+        $resetUrl = config("app.front_end_url") . '/reset-password';
 
         return [
             'subject' => 'Reset Your Password',

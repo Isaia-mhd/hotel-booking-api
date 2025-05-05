@@ -7,6 +7,7 @@ use App\Http\Requests\forgotPasswordUserRequest;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\resetPasswordUserRequest;
 use App\Models\User;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -50,16 +51,22 @@ class AuthController extends Controller
     public function forgotPassword(forgotPasswordUserRequest $request)
     {
 
+        $user = User::where("email", $request->email)->first();
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        if (!$user) {
+            return response()->json([
+                "message" => "User not found"
+            ], 404);
+        }
 
-        return $status === Password::RESET_LINK_SENT
-            ? response()->json(['message' => 'Password reset link sent to your email.'], 200)
-            : response()->json(['message' => 'Failed to send reset link.'], 500);
+        $token = Password::createToken($user);
+        $user->notify(new ResetPasswordNotification($token, $user->email));
 
-
+        return response()->json([
+            "message" => "Password Reset Link Sent.",
+            "email" => $request->email,
+            "token" => $token
+        ]);
 
     }
 
@@ -69,9 +76,9 @@ class AuthController extends Controller
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
-                $user->forceFill([
-                    'password' => bcrypt($password),
-                ])->save();
+                $user->password = Hash::make($password);
+                $user->setRememberToken(Str::random(60));
+                $user->save();
 
                 event(new PasswordReset($user));
             }
