@@ -51,8 +51,8 @@ class RoomController extends Controller
         {
             $image = request()->file("image_url");
 
-            $path = $image->store("rooms", "public");
-            $paths = $path;
+            $path = $image->store("/rooms", "public");
+            $paths = 'storage/'. $path;
         }
 
 
