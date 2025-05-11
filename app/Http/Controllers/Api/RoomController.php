@@ -31,6 +31,11 @@ class RoomController extends Controller
      */
     public function store(StoreRoomRequest $request)
     {
+
+        request()->validate([
+            "image_url" => "image|mimes:png,jpg,jpeg"
+        ]);
+
         $class= Classe::where("class", "like", "%".$request->class ."%")->first();
 
 
@@ -41,9 +46,14 @@ class RoomController extends Controller
             ], 403);
         }
 
-        $image = $request->image_url;
+        $paths = null;
+        if(request()->hasFile("image_url"))
+        {
+            $image = request()->file("image_url");
 
-        $imgUrl = $image->store("rooms", "public");
+            $path = $image->store("rooms", "public");
+            $paths = $path;
+        }
 
 
 
@@ -51,7 +61,7 @@ class RoomController extends Controller
             "name" => $request->name,
             "class_id" => $class->id,
             "price" => $request->price,
-            "image_url" => $imgUrl
+            "image_url" => $paths
         ]);
 
         return response()->json([

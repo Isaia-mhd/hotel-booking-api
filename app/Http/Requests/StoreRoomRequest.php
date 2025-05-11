@@ -27,7 +27,7 @@ class StoreRoomRequest extends FormRequest
             "name" => "required|string|unique:rooms",
             "price" => "required|numeric",
             "class" => "string|required",
-            "image_url" => "image|mimes:png,jpg,jpeg"
+            
         ];
     }
 
