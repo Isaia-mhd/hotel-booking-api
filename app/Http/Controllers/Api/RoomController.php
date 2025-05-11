@@ -33,7 +33,7 @@ class RoomController extends Controller
     {
 
         request()->validate([
-            "image_url" => "image|mimes:png,jpg,jpeg"
+            "image_url" => "required|image|mimes:png,jpg,jpeg"
         ]);
 
         $class= Classe::where("class", "like", "%".$request->class ."%")->first();
