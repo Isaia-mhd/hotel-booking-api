@@ -11,6 +11,7 @@ use App\Models\Classe;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class RoomController extends Controller
 {
@@ -153,6 +154,15 @@ class RoomController extends Controller
             ], 403);
         }
 
+        // Check if the room has image
+        if($room->image_url)
+        {
+            $imagePath = str_replace('storage/', 'public/', $room->image_url);
+            if(Storage::exists($imagePath))
+            {
+                Storage::delete($imagePath);
+            }
+        }
 
 
         $room->delete();
