@@ -26,11 +26,11 @@ class BookingValidator
         // Check if the room is already booked
         $alreadyBooked = Book::where('room_id', $roomId)
             ->where(function ($query) use ($startDate, $endDate) {
-                $query->whereBetween('start-date', [$startDate, $endDate])
-                      ->orWhereBetween('end-date', [$startDate, $endDate])
+                $query->whereBetween('start_date', [$startDate, $endDate])
+                      ->orWhereBetween('end_date', [$startDate, $endDate])
                       ->orWhere(function ($q) use ($startDate, $endDate) {
-                          $q->where('start-date', '<=', $startDate)
-                            ->where('end-date', '>=', $endDate);
+                          $q->where('start_date', '<=', $startDate)
+                            ->where('end_date', '>=', $endDate);
                       });
             })
             ->exists();
@@ -70,7 +70,7 @@ class BookingValidator
                 "message" => "The start_date has been passed!"
             ], 409);
         }
-        
+
         return null;
     }
 
