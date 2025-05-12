@@ -27,16 +27,18 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookRequest $request, $room)
+    public function store(StoreBookRequest $request)
     {
 
         $nbPeople = $request->number_of_people;
         $startDate = $request->start_date;
         $endDate = $request->end_date;
+        $roomId = $request->room_id;
+
 
 
         // Validate the date
-        $bookingValidationResponse = BookingValidator::validateStoring($room, $startDate, $endDate);
+        $bookingValidationResponse = BookingValidator::validateStoring($roomId, $startDate, $endDate);
 
         if($bookingValidationResponse)
         {
@@ -44,7 +46,7 @@ class BookingController extends Controller
         }
 
         $booking = Book::create([
-            'room_id' => $room,
+            'room_id' => $roomId,
             'user_id' => auth()->id(),
             'start_date' => $startDate,
             'end_date' => $endDate,

@@ -26,7 +26,8 @@ class StoreBookRequest extends FormRequest
         return [
             'start_date' => 'required|date',
             'end_date' => 'required|date',
-            'number_of_people' => 'required|integer'
+            'number_of_people' => 'required|integer',
+            'room_id' => "required|integer"
         ];
     }
 
