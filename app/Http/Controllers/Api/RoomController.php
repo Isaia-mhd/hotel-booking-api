@@ -96,7 +96,10 @@ class RoomController extends Controller
      */
     public function update(UpdateRoomRequest $request, $room)
     {
-
+        request()->validate([
+            "image_url" => "image|mimes:png,jpg,jpeg"
+        ]);
+      
         $room = Room::find($room);
 
         if(!$room)
@@ -120,10 +123,20 @@ class RoomController extends Controller
             return response()->json(["message" => "Class does not exist"]);
         }
 
+        $paths = null;
+        if(request()->hasFile("image_url"))
+        {
+            $image = request()->file("image_url");
+
+            $path = $image->store("/rooms", "public");
+            $paths = 'storage/'. $path;
+        }
+
         $room->update([
             "name" => $request->name,
             "price" => $request->price,
-            "class_id" => $class->id
+            "class_id" => $class->id,
+            "image_url" => $paths
         ]);
 
         return response()->json([

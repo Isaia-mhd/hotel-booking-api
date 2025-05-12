@@ -25,8 +25,8 @@ class UpdateRoomRequest extends FormRequest
     {
         return [
             "name" => "required|string",
-            "price" => "required",
-            "class" => "string|required"
+            "price" => "required|numeric",
+            "class" => "string|required",
         ];
     }
 
