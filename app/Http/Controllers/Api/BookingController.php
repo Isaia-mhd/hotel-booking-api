@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\Room;
 use App\Services\BookingValidator;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -27,6 +28,15 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    private function nightNumber($start_date, $end_date): int
+    {
+
+        // Count the night
+        $checkIn = Carbon::parse($start_date);
+        $checkOut = Carbon::parse($end_date);
+
+        return $checkIn->diffInDays($checkOut);
+    }
     public function store(StoreBookRequest $request)
     {
 
@@ -45,12 +55,18 @@ class BookingController extends Controller
             return $bookingValidationResponse;
         }
 
+        $nights = $this->nightNumber($startDate, $endDate);
+        $room = Room::find($roomId);
+        $total = $nights * $room->price;
+
         $booking = Book::create([
             'room_id' => $roomId,
             'user_id' => auth()->id(),
             'start_date' => $startDate,
             'end_date' => $endDate,
-            'number_of_people' => $nbPeople
+            'number_of_people' => $nbPeople,
+            'nights' => $nights,
+            'total' => $total
         ]);
 
         return response()->json([
