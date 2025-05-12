@@ -55,7 +55,7 @@ class BookingController extends Controller
 
         return response()->json([
             "message" => "Booking Placed successfully",
-            "book" => $booking
+            "book" => $booking->load("user", "room")
         ]);
     }
 
