@@ -44,10 +44,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     // STRIPE PAYMENT
-    Route::get('/cancel', [PaymentController::class, 'cancel'])->name('cancel');
-    Route::get('/success/{book}', [PaymentController::class, 'success'])->name('success');
-    Route::post('/payment/{book}', [PaymentController::class, 'payment'])->name('payment');
-
+    Route::post('/payment', [PaymentController::class, 'payment'])->name('payment');
 
     // Notification*
     Route::get('/admin/notifications', [NotifController::class, "getNotifications"]);

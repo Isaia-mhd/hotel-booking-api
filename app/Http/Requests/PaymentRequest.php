@@ -22,7 +22,7 @@ class PaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'payment_method_id' => 'required|string',
+            'payment_method' => 'required|string',
             'amount' => 'required|numeric|min:1', // in USD cents
             'book_id' => 'required|integer'
         ];

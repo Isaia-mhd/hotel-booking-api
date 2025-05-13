@@ -18,10 +18,12 @@ class PaymentCompleted
      * Create a new event instance.
      */
 
-    public $paymentData;
-    public function __construct($paymentData)
+    public $paymentIntent;
+    public  $bookId;
+    public function __construct($paymentIntent, $book_id)
     {
-        $this->paymentData = $paymentData;
+        $this->paymentIntent = $paymentIntent;
+        $this->bookId = $book_id;
     }
 
     /**
