@@ -21,9 +21,14 @@ class PaymentController extends Controller
             $paymentIntent = PaymentIntent::create([
                 'amount' => intval($amount * 100), // amount in cents (e.g., 1000 = $10.00)
                 'currency' => 'usd',
+                'payment_method_types' => ['card'],
                 'payment_method' => $request->payment_method,
                 'confirmation_method' => 'manual',
                 'confirm' => true,
+                'automatic_payment_methods' => [
+                    'enabled' => true,
+                    'allow_redirects' => 'never'
+                ],
             ]);
 
             event(new PaymentCompleted($paymentIntent, $request->book_id));
