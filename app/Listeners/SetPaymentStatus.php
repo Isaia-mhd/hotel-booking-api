@@ -43,7 +43,5 @@ class SetPaymentStatus
         {
             $admin->notify(new NewPayment($book));
         }
-
-
     }
 }

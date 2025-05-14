@@ -5,31 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Events\PaymentCompleted;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentRequest;
-use App\Models\Book;
-use App\Models\Payment;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
-
-
-    private function nightNumber($start_date, $end_date): int
-    {
-
-        // Count the night
-        $checkIn = Carbon::parse($start_date);
-        $checkOut = Carbon::parse($end_date);
-
-        return $checkIn->diffInDays($checkOut);
-    }
-
     public function payment(PaymentRequest $request)
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
+        Stripe::setApiKey(config('services.stripe.key'));
 
         try {
             // Create or confirm the PaymentIntent
