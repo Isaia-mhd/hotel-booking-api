@@ -21,7 +21,7 @@ return [
 
     'allowed_origins' => [
         'http://localhost:5173',
-        'https://hotel-booking-iota-beryl.vercel.app',
+        'https://hotel-booking-hmorazwwd-fabien-flavios-projects.vercel.app/',
     ],
 
     'allowed_origins_patterns' => [],
