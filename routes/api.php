@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\ClasseController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\GoogleUserController;
 use App\Http\Controllers\Api\LikingController;
 use App\Http\Controllers\Api\NotifController;
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get("/dashboard", [DashboardController::class, 'index']);
 
 Route::post("/contacts/store", [ContactController::class,"store"]);
 Route::get("/contacts", [ContactController::class,"getAll"]);
