@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Models\Room;
 use App\Services\BookingValidator;
@@ -71,7 +72,7 @@ class BookingController extends Controller
 
         return response()->json([
             "message" => "Booking Placed successfully",
-            "book" => $booking->load("user", "room")
+            "book" => new BookResource($booking->load("user", "room"))
         ]);
     }
 
@@ -89,7 +90,7 @@ class BookingController extends Controller
         }
 
         return response()->json([
-            "book" => $book
+            "book" => new BookResource($book->load("user", "room"))
         ], 200);
 
     }
@@ -121,7 +122,7 @@ class BookingController extends Controller
 
         return response()->json([
             "message" => "Booking updated with success!",
-            "book" => $book
+            "book" => new BookResource($book->load("user", "room"))
         ], 200);
     }
 
