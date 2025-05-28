@@ -94,7 +94,7 @@ class UserController extends Controller
             ], 403);
         }
 
-        $userInfo->update($request->all("name","email", "phone"));
+        $userInfo->update($request->all());
 
         return response()->json([
             "message" => "User updated Successfully!",
@@ -102,30 +102,6 @@ class UserController extends Controller
         ], 200);
 
 
-    }
-
-
-    public function updateRole(User $user)
-    {
-        if(!request()->has("role"))
-        {
-            return response()->json([
-                "message" => "role can't be updated",
-            ], 422);
-        }
-
-
-        if(Gate::denies("change-role"))
-        {
-            return response()->json([
-                "message" => "Unauthorized"
-            ], 403);
-        }
-
-        $user->update(["role" => request()->get("role")]);
-        return response()->json([
-            "message" => "role updated successfully!",
-        ], 200);
     }
 
     /**
