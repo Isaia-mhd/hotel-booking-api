@@ -28,8 +28,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define("update-room", fn($user) => $user->role === "admin");
         Gate::define("delete-room", fn($user) => $user->role === "admin");
 
-        Gate::define("update-user", fn($user, $userInfo) => $user->id == $userInfo->id);
-        Gate::define("delete-user", fn($user, $userInfo) => $user->id == $userInfo->id);
+        Gate::define("update-user", fn($user, $userInfo) => $user->role == "admin");
+        Gate::define("delete-user", fn($user, $userInfo) => $user->role == "admin");
 
         Gate::define("change-role", fn($user) => $user->role === "admin");
 
